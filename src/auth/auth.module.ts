@@ -21,12 +21,12 @@ import { JwtStrategy } from './strategies/jwt.strategy'
     ]),
     ConfigModule,
     JwtModule.registerAsync({
-      imports:[ConfigModule],
-      inject:[ConfigService],
+      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: getJWTConfig
     })
   ],
 
   providers: [AuthService, JwtStrategy],
 })
-export class AuthModule {}
+export class AuthModule { }

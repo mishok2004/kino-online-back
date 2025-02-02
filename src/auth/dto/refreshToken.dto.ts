@@ -1,7 +1,7 @@
-import {  IsString } from "class-validator"
+import { IsString } from "class-validator"
 
-export class RefreshTokenDTO {
+export class RefreshTokenDto {
     @IsString()
-refreshToken: string
+    refreshToken: string
 }
 
