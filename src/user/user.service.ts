@@ -60,7 +60,7 @@ export class UserService {
     }
 
     async delete(id: string) {
-        return this.UserModel.findOneAndDelete().exec()
+        return this.UserModel.findByIdAndDelete().exec()
     }
 
 }
