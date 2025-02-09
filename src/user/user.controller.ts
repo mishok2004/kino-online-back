@@ -12,7 +12,7 @@ export class UserController {
     @Get('profile')
     @Auth()
     async getProfile(@User('_id') _id: string) {
-        return this.userService.byID(_id)
+        return this.userService.byId(_id)
     }
 
     @UsePipes(new ValidationPipe())
@@ -20,9 +20,14 @@ export class UserController {
     @HttpCode(200)
     @Auth()
     async updateProfile(@User('_id') _id: string, @Body() dto: UpdateUserDto) {
-        return this.userService.updateProfile(__dirname, dto)
+        return this.userService.updateProfile(_id, dto)
     }
 
+    @Get('count')
+    @Auth('admin')
+    async getCountUsers() {
+        return this.userService.getCount()
+    }
 
     @Get()
     @Auth('admin')
@@ -32,26 +37,19 @@ export class UserController {
 
     @Get(':id')
     @Auth('admin')
-    async getUser(@Param('_id', IdValidationPipe) id: string) {
-        return this.userService.byID(id)
-    }
-
-
-    @Get('count')
-    @Auth('admin')
-    async getCountUsers() {
-        return this.userService.getCount()
+    async getUser(@Param('id', IdValidationPipe) id: string) {
+        return this.userService.byId(id)
     }
 
     @UsePipes(new ValidationPipe())
     @Put(':id')
     @HttpCode(200)
     @Auth('admin')
-    async updateUser(@Param('id', IdValidationPipe) id: string, @Body() dto: UpdateUserDto) {
+    async updateUser(
+        @Param('id', IdValidationPipe) id: string,
+        @Body() dto: UpdateUserDto) {
         return this.userService.updateProfile(id, dto)
     }
-
-
 
     @Delete(':id')
     @HttpCode(200)

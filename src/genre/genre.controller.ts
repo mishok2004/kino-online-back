@@ -1,65 +1,57 @@
 import { GenreService } from './genre.service';
-import { Body, Controller, Delete, Get, HttpCode, Param, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { GenreModel } from './genre.model';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { IdValidationPipe } from 'src/pipes/id.validation.pipe';
-import { User } from 'src/user/decorators/user.decorator';
-import { UpdateUserDto } from 'src/user/dto/updateuser.dto';
+import { CreateGenreDto } from './dto/create-genre.dto';
 
 @Controller('genres')
 export class GenreController {
 
-    constructor(private readonly genreModel: GenreModel) { }
+    constructor(private readonly genreService: GenreService) { }
 
-    @Get('profile')
-    @Auth()
-    async getProfile(@User('_id') _id: string) {
-        return this.genreService.byID(_id)
+    @Get('by-slug/:slug')
+    async bySlug(@Param('slug') slug: string) {
+        return this.genreService.bySlug(slug)
     }
 
-    @UsePipes(new ValidationPipe())
-    @Put('profile')
-    @HttpCode(200)
-    @Auth()
-    async updateProfile(@User('_id') _id: string, @Body() dto: UpdateUserDto) {
-        return this.userService.updateProfile(__dirname, dto)
+    @Get('/collections')
+    async getCollections() {
+        return this.genreService.getCollections()
     }
-
 
     @Get()
-    @Auth('admin')
-    async getUsers(@Query('searchTerm') searchTerm?: string) {
-        return this.userService.getAll(searchTerm)
+    async getAll(@Query('searchTerm') searchTerm?: string) {
+        return this.genreService.getAll(searchTerm)
     }
 
     @Get(':id')
     @Auth('admin')
-    async getUser(@Param('_id', IdValidationPipe) id: string) {
-        return this.userService.byID(id)
+    async get(@Param('id', IdValidationPipe) id: string) {
+        return this.genreService.byID(id)
     }
 
-
-    @Get('count')
-    @Auth('admin')
-    async getCountUsers() {
-        return this.userService.getCount()
-    }
 
     @UsePipes(new ValidationPipe())
     @Put(':id')
     @HttpCode(200)
     @Auth('admin')
-    async updateUser(@Param('id', IdValidationPipe) id: string, @Body() dto: UpdateUserDto) {
-        return this.userService.updateProfile(id, dto)
+    async update(@Param('id', IdValidationPipe) id: string, @Body() dto: CreateGenreDto) {
+        return this.genreService.update(id, dto)
     }
 
-
+    @UsePipes(new ValidationPipe())
+    @Post()
+    @HttpCode(200)
+    @Auth('admin')
+    async create() {
+        return this.genreService.create()
+    }
 
     @Delete(':id')
     @HttpCode(200)
     @Auth('admin')
-    async deleteUser(@Param('id', IdValidationPipe) id: string) {
-        return this.userService.delete(id)
+    async delete(@Param('id', IdValidationPipe) id: string) {
+        return this.genreService.delete(id)
     }
 
 }

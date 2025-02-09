@@ -1,12 +1,12 @@
-import { GenreModel } from './genre.model';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateGenreDto } from './dto/create-genre.dto';
+import { GenreModel } from './genre.model';
 
 @Injectable()
 export class GenreService {
-    constructor(@InjectModel(GenreService) private readonly GenreModel: ModelType<GenreService>) { }
+    constructor(@InjectModel(GenreModel) private readonly GenreModel: ModelType<GenreModel>) { }
 
 
     async bySlug(slug: string) {

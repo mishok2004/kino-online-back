@@ -11,22 +11,18 @@ export class UserService {
     constructor(@InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>) { }
 
 
-    async byID(_id: string) {
+    async byId(_id: string) {
         const user = await this.UserModel.findById(_id)
         if (!user) throw new NotFoundException('User not found')
-
-
         return user
     }
 
 
     async updateProfile(_id: string, dto: UpdateUserDto) {
-        const user = await this.byID(_id)
+        const user = await this.byId(_id)
         const isSameUser = await this.UserModel.findOne({ email: dto.email })
 
         if (isSameUser && String(_id) !== String(isSameUser._id)) throw new NotFoundException('User is registered')
-
-
         if (dto.password) {
             const salt = await genSalt(10)
             user.password = await hash(dto.password, salt)
