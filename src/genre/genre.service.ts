@@ -10,8 +10,9 @@ export class GenreService {
 
 
     async bySlug(slug: string) {
-
-        return this.GenreModel.findOne({ slug }).exec()
+        const doc = await this.GenreModel.findOne({ slug }).exec()
+        if (!doc) throw new NotFoundException('Actor not found')
+        return doc
     }
 
     async getAll(searchTerm?: string) {
@@ -44,7 +45,7 @@ export class GenreService {
     }
 
     //admin
-    async byID(_id: string) {
+    async byId(_id: string) {
         const genre = await this.GenreModel.findById(_id)
         if (!genre) throw new NotFoundException('Gener not found')
         return genre
@@ -72,7 +73,7 @@ export class GenreService {
     }
 
     async delete(id: string) {
-        const delDoc = await this.GenreModel.findByIdAndDelete().exec()
+        const delDoc = await this.GenreModel.findByIdAndDelete(id).exec()
 
         if (!delDoc) throw new NotFoundException('Genre not found')
 

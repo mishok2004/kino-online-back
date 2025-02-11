@@ -10,6 +10,8 @@ import { GenreModule } from './genre/genre.module';
 import { FileService } from './file/file.service';
 import { FileController } from './file/file.controller';
 import { FileModule } from './file/file.module';
+import { ControllerService } from './controller/controller.service';
+import { ActorModule } from './actor/actor.module';
 
 @Module({
   imports: [
@@ -23,8 +25,9 @@ import { FileModule } from './file/file.module';
     UserModule,
     GenreModule,
     FileModule,
+    ActorModule,
   ],
   controllers: [AppController, FileController],
-  providers: [AppService, FileService],
+  providers: [AppService, FileService, ControllerService],
 })
-export class AppModule {}
+export class AppModule { }
