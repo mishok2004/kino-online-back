@@ -12,6 +12,8 @@ import { FileController } from './file/file.controller';
 import { FileModule } from './file/file.module';
 import { ControllerService } from './controller/controller.service';
 import { ActorModule } from './actor/actor.module';
+import { MovieController } from './movie/movie.controller';
+import { MovieModule } from './movie/movie.module';
 
 @Module({
   imports: [
@@ -26,8 +28,9 @@ import { ActorModule } from './actor/actor.module';
     GenreModule,
     FileModule,
     ActorModule,
+    MovieModule,
   ],
-  controllers: [AppController, FileController],
+  controllers: [AppController, FileController, MovieController],
   providers: [AppService, FileService, ControllerService],
 })
 export class AppModule { }
