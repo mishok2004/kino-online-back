@@ -11,7 +11,7 @@ export class Parametrs {
     coantry: string
 }
 
-export class CreateGenreDto {
+export class UpdateMovieDto {
     @IsString()
     poster: string
 
