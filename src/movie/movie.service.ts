@@ -7,8 +7,8 @@ import { Types } from 'mongoose';
 
 @Injectable()
 export class MovieService {
-
-    constructor(@InjectModel(MovieModel) private readonly MovieModel: ModelType<MovieModel>) { }
+    constructor(
+        @InjectModel(MovieModel) private readonly MovieModel: ModelType<MovieModel>) { }
 
     async getAll(searchTerm?: string) {
         let options = {}
@@ -33,19 +33,23 @@ export class MovieService {
         return doc
     }
 
-    async byActor(actorId: string) {
-        const doc = await this.MovieModel.find({ actor: actorId }).exec()
+    async byActor(actorId: Types.ObjectId) {
+        const doc = await this.MovieModel.find({ actors: actorId }).exec()
         if (!doc) throw new NotFoundException('Movies not found')
         return doc
     }
 
-    async byGeneres(genereIds: Types.ObjectId[]) {
-        const doc = await this.MovieModel.find({ generes: { $in: genereIds } }).exec()
+    async byGenres(genreIds: Types.ObjectId[]) {
+        const doc = await this.MovieModel.find({ genres: { $in: genreIds } }).exec()
         if (!doc) throw new NotFoundException('Movies not found')
         return doc
     }
 
-    async updateCounterOpened(slug: string) {
+    async getMostPopular() {
+        return this.MovieModel.find({ countOpened: { $gt: 0 } }).sort({ countOpened: -1 }).populate('genres').exec()
+    }
+
+    async updateCountOpened(slug: string) {
         const updateDoc = await this.MovieModel.findOneAndUpdate({ slug }, {
             $inc: { countOpened: 1 },
         }).exec()
@@ -53,10 +57,6 @@ export class MovieService {
         if (!updateDoc) throw new NotFoundException('Movie not found')
 
         return updateDoc
-    }
-
-    async getMostPopular() {
-        return this.MovieModel.find({ countOpened: { $gt: 0 } }).sort({ countOpened: -1 }).populate('genres').exec()
     }
 
     //admin
@@ -68,17 +68,17 @@ export class MovieService {
 
     async create() {
         const defaultValue: UpdateMovieDto = {
-            poster: '',
             bigPoster: '',
-            title: '',
-            description: '',
-            slug: '',
-            videoUrl: '',
-            genres: [],
             actors: [],
+            genres: [],
+            description: '',
+            poster: '',
+            title: '',
+            videoUrl: '',
+            slug: '',
         }
-        const doc = await this.MovieModel.create(defaultValue)
-        return doc._id
+        const movie = await this.MovieModel.create(defaultValue)
+        return movie._id
     }
 
     async update(_id: string, dto: UpdateMovieDto) {

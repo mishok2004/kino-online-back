@@ -4,6 +4,8 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { MovieModel } from './movie.model';
 import { MovieController } from './movie.controller';
 
+
+
 @Module({
   imports: [
     TypegooseModule.forFeature([

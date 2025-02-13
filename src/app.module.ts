@@ -12,7 +12,6 @@ import { FileController } from './file/file.controller';
 import { FileModule } from './file/file.module';
 import { ControllerService } from './controller/controller.service';
 import { ActorModule } from './actor/actor.module';
-import { MovieController } from './movie/movie.controller';
 import { MovieModule } from './movie/movie.module';
 
 @Module({
@@ -30,7 +29,7 @@ import { MovieModule } from './movie/movie.module';
     ActorModule,
     MovieModule,
   ],
-  controllers: [AppController, FileController, MovieController],
+  controllers: [AppController, FileController],
   providers: [AppService, FileService, ControllerService],
 })
 export class AppModule { }
