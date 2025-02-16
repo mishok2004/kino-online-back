@@ -27,6 +27,7 @@ export class MovieController {
         return this.movieService.byActor(actorId)
     }
 
+    @UsePipes(new ValidationPipe())
     @Post('by-genres')
     @HttpCode(200)
     async byGenres(
@@ -36,10 +37,10 @@ export class MovieController {
 
     @Get('most-popular')
     async getMostPopular() {
-        return this.getMostPopular()
+        return this.movieService.getMostPopular()
     }
 
-    @Post('update-count-opened')
+    @Put('update-count-opened')
     @HttpCode(200)
     async updateCountOpened(
         @Body('slug') slug: string) {

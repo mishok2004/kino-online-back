@@ -24,11 +24,11 @@ export class MovieService {
             .select('-updateAt -__v')
             .sort({
                 createdAt: 'desc'
-            }).populate('actor genres').exec()
+            }).populate('actors genres').exec()
     }
 
     async bySlug(slug: string) {
-        const doc = await this.MovieModel.findOne({ slug }).populate('actor genres').exec()
+        const doc = await this.MovieModel.findOne({ slug }).populate('actors genres').exec()
         if (!doc) throw new NotFoundException('Movies not found')
         return doc
     }
@@ -52,7 +52,10 @@ export class MovieService {
     async updateCountOpened(slug: string) {
         const updateDoc = await this.MovieModel.findOneAndUpdate({ slug }, {
             $inc: { countOpened: 1 },
-        }).exec()
+        },
+            {
+                new: true
+            }).exec()
 
         if (!updateDoc) throw new NotFoundException('Movie not found')
 
@@ -71,7 +74,6 @@ export class MovieService {
             bigPoster: '',
             actors: [],
             genres: [],
-            description: '',
             poster: '',
             title: '',
             videoUrl: '',
