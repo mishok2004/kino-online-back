@@ -13,6 +13,7 @@ import { FileModule } from './file/file.module';
 import { ControllerService } from './controller/controller.service';
 import { ActorModule } from './actor/actor.module';
 import { MovieModule } from './movie/movie.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MovieModule } from './movie/movie.module';
     FileModule,
     ActorModule,
     MovieModule,
+    RatingModule,
   ],
   controllers: [AppController, FileController],
   providers: [AppService, FileService, ControllerService],

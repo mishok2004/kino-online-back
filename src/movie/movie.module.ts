@@ -18,6 +18,7 @@ import { MovieController } from './movie.controller';
     ]),
   ],
   controllers: [MovieController],
-  providers: [MovieService]
+  providers: [MovieService],
+  exports: [MovieService]
 })
 export class MovieModule { }
