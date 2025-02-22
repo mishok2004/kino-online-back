@@ -43,8 +43,10 @@ export class RatingService {
                 setDefaultsOnInsert: true
             }).exec()
 
-
         const averageRating = await this.averageRatingByMovie(movieId)
+
+        await this.MovieService.updateRating(movieId, averageRating)
+
         return newRating
     }
 }
