@@ -14,6 +14,7 @@ import { ControllerService } from './controller/controller.service';
 import { ActorModule } from './actor/actor.module';
 import { MovieModule } from './movie/movie.module';
 import { RatingModule } from './rating/rating.module';
+import { TelegramModule } from './telegram/telegram.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RatingModule } from './rating/rating.module';
     ActorModule,
     MovieModule,
     RatingModule,
+    TelegramModule,
   ],
   controllers: [AppController, FileController],
   providers: [AppService, FileService, ControllerService],
