@@ -90,10 +90,13 @@ export class MovieService {
     }
 
     async update(_id: string, dto: UpdateMovieDto) {
-        if (!dto.isSendTelegram) {
-            await this.sendNotification(dto)
-            dto.isSendTelegram = true
-        }
+        // if (!dto.isSendTelegram) {
+        //     await this.sendNotification(dto)
+        //     dto.isSendTelegram = true
+        // }
+
+        await this.sendNotification(dto)
+
 
         const updateDoc = await this.MovieModel.findByIdAndUpdate(_id, dto, {
             new: true,
@@ -113,7 +116,7 @@ export class MovieService {
     async sendNotification(dto: UpdateMovieDto) {
         // if (process.env.NODE_ENV !== 'development')
         //     await this.telegramService.sendPhoto(dto.poster)
-        await this.telegramService.sendPhoto('dto.poster')
+        await this.telegramService.sendPhoto('https://i.pinimg.com/originals/bc/27/fe/bc27fe46a0ff19e59b0e387c290c80a7.jpg')
 
         const msg = `<b> ${dto.title} </b>`
         await this.telegramService.sendMessage(msg, {
@@ -121,7 +124,7 @@ export class MovieService {
                 inline_keyboard: [
                     [
                         {
-                            url: '',
+                            url: 'https://hd.kinopoisk.ru/?playingContentId=677a93072d7c48928241a4486694e872&rt=677a93072d7c48928241a4486694e872&watch=',
                             text: 'Go to watch'
                         }
                     ]
